@@ -1,3 +1,10 @@
+---
+layout: post
+title: 'Rack and Rack Middleware'
+date: 2016-05-03
+categories: ruby, rack
+---
+
 What is Rack?
 ------
 Rack provides a minimal interface between between webservers supporting Ruby and Ruby frameworks. Using Rack you can write a Rack Application.  
