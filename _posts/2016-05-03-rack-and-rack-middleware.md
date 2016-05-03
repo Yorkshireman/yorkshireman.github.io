@@ -70,4 +70,4 @@ end
   
 Rack Middleware
 ---
-We will insert a piece of Rack Middleware into our codebase - a class: `MessageSetter`. The Environment hash will hit this class first and will be passed in as a parameter: `env`. `MessageSetter` will insert a `MESSAGE` key into the env hash, its value being "Hello, World!" if `env['QUERY_STRING']` is empty; `env['QUERY_STRING']` if not. Finally, it will return `@app.call(env)` - `@app` being the next app in the 'Stack': `MessageApp`. (talk about #use, #run and Rack::Response)
+We will insert a piece of Rack Middleware into our codebase - a class: `MessageSetter`. The Environment hash will hit this class first and will be passed in as a parameter: `env`. `MessageSetter` will insert a `MESSAGE` key into the env hash, its value being "Hello, World!" if `env['QUERY_STRING']` is empty; `env['QUERY_STRING']` if not. Finally, it will return `@app.call(env)` - `@app` being the next app in the 'Stack': `MessageApp`. (talk about #use, #run and Rack::Response http://rack.rubyforge.org/doc/Rack/Response.html)
