@@ -52,7 +52,8 @@ In our little Rack app, we can interact with the `env` hash (see [here](http://r
 We will implement the ability for the user to input their own query string into the URL, hence, that string will be present in the HTTP request, encapsulated as a value in one of the key/value pairs of the Environment hash.  
   
 Our Rack app will access that query string from the Environment hash and send that back to the viewport via the Body in the Response.  
-From the Rack docs on the Environment Hash: "QUERY_STRING: The portion of the request URL that follows the ?, if any. May be empty, but is always required!"  
+From the Rack docs on the Environment Hash:  
+> "QUERY_STRING: The portion of the request URL that follows the ?, if any. May be empty, but is always required!"  
 
 {% highlight ruby %}
 #./message_app.rb
