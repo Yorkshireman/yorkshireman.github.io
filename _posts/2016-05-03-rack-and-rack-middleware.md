@@ -23,7 +23,9 @@ A Very Simple Rack Application:
 ------
 `gem install rack`  
 Create a config.ru file - Rack knows to look for this.  
-We will create a tiny Rack Application that returns an array that contains a body consisting of a String: "Hello, World!". We will fire up a local server using the command `rackup`. When visiting the relevant port in our browser we will see "Hello, World!" rendered in the viewport.  
+We will create a tiny Rack Application that returns an array that contains a body consisting of a String: "Hello, World!".  
+We will fire up a local server using the command `rackup`.  
+When visiting the relevant port in our browser we will see "Hello, World!" rendered in the viewport.  
   
 {% highlight ruby %}
 #./message_app.rb
