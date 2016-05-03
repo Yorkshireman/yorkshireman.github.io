@@ -31,7 +31,7 @@ When visiting the relevant port in our browser we will see "Hello, World!" rende
 #./message_app.rb
 class MessageApp
   def call(env)
-    [200, {}, ['Hello, World!']
+    [200, {}, ['Hello, World!']]
   end
 end
 {% endhighlight %}
