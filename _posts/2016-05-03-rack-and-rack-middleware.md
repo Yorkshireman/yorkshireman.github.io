@@ -68,6 +68,8 @@ class MessageApp
 end
 {% endhighlight %}
 
+Now, `rackup` and visit `localhost:9292?hello` (`?hello` being the query string) and you should see 'hello' rendered in the viewport.
+
 Rack Middleware
 ---
 We will:
