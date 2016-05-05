@@ -14,8 +14,8 @@ Rack will pass the Environment hash (a Hash consisting of CGI-like headers) to y
 
 What is a Rack Application?
 ------
-A Rack Application is an object (not a class) that responds to `#call`.
-`#call` takes exactly one argument, the 'environment' (typically defined `env`).
+A Rack Application is an object (not a class) that responds to `#call`.  
+`#call` takes exactly one argument, the Environment hash (typically defined `env`).  
 `#call` returns an Array of exactly three values: the 'status', the 'headers', and the 'body'.
 
 You can write a Rack Application to return an array of these three values which will be sent back to your client, by Rack, inside a response.
