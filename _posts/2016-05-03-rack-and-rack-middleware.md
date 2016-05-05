@@ -18,7 +18,7 @@ A Rack Application is an object (not a class) that responds to `#call`.
 `#call` takes exactly one argument, the Environment hash (typically defined `env`).  
 `#call` returns an Array of exactly three values: the 'status', the 'headers', and the 'body'.
 
-You can write a Rack Application to return an array of these three values which will be sent back to your client, by Rack, inside a response.
+You can write a Rack Application to return an array of these three values which will be sent back to your client, by Rack, inside a response (this will be an instance of `Rack::Response`).
 
 A Very Simple Rack Application:
 ------
