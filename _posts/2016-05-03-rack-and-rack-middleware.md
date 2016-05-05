@@ -117,7 +117,7 @@ class MessageSetter
 end
 {% endhighlight %}
 
-From the [Rack::Builder docs](http://www.rubydoc.info/github/rack/rack/Rack/Builder) we see that `Rack::Builder` implements a small DSL to iteratively construct Rack applications. This basically means that you can build a 'Stack' consisting of one or more Middlewares and (for the purposes of this discussion) an Application to dispatch to. All requests will through to your application will be first processed by your Middleware(s).
+From the [Rack::Builder docs](http://www.rubydoc.info/github/rack/rack/Rack/Builder) we see that `Rack::Builder` implements a small DSL to iteratively construct Rack applications. This basically means that you can build a 'Stack' consisting of one or more Middlewares and a 'bottom level' application to dispatch to. All requests going through to your bottom-level application will be first processed by your Middleware(s).
 
 `#use` specifies middleware to use in a stack. It takes the middleware as an argument.
 
