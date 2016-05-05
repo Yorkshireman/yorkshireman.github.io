@@ -55,7 +55,7 @@ We will implement the ability for the user to input their own query string into 
 
 Our Rack app will access that query string from the Environment hash and send that back to the client (our browser, in this case) via the Body in the Response.
 
-From the Rack docs on the Environment Hash:
+From the Rack docs on the Environment Hash:  
 **"QUERY_STRING: The portion of the request URL that follows the ?, if any. May be empty, but is always required!"**
 
 {% highlight ruby %}
