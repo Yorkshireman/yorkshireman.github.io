@@ -10,7 +10,7 @@ What is Rack?
 ------
 Rack provides a minimal interface between between webservers supporting Ruby and Ruby frameworks. Using Rack you can write a Rack Application.
 
-Rack will pass the Environment hash (a Hash consisting of CGI-like headers) to your Rack Application which can use things contained in this hash to do whatever it wants.
+Rack will pass the Environment hash (a Hash, contained inside a HTTP request from a client, consisting of CGI-like headers) to your Rack Application which can use things contained in this hash to do whatever it wants.
 
 What is a Rack Application?
 ------
