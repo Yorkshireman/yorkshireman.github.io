@@ -126,7 +126,7 @@ Rack Middleware must:
 - have a constructor that takes the next application in the stack as a parameter,
 - respond to the `call` method that takes the Environment hash as a parameter.
 
-So here, because of what `Rack::Builder` does under the hood, `@app` is `MessageApp`. Each piece of Middleware essentially 'passes down' the existing Environment hash to the next application in the chain.
+So here, because of what `Rack::Builder` does under the hood, `@app` is `MessageApp`. Therefore, each piece of Middleware essentially 'passes down' the existing Environment hash to the next application in the chain.
 
 `#run` takes an argument that is an object that responds to `#call` and returns a Rack response (an instance of `Rack::Response`).
 
