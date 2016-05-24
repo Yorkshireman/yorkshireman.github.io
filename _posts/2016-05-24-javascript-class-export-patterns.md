@@ -6,7 +6,7 @@ date: 2016-05-24
 categories: javascript, express, mocha, chai, testing
 ---
 
-An export/import pattern for ES6 that allows for easy testing and stubbing of (injected) dependencies with a neat use of curly-braces when importing into a test file.
+An export/import pattern for ES6 classes that allows for easy testing and stubbing of (injected) dependencies with a neat use of curly-braces when importing into a test file.
 
 featureSwitches.js:
 
