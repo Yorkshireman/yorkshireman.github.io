@@ -162,6 +162,6 @@ testFixture.js:
 
 Line 2, by using curly braces `{}`, imports the class name itself so you then have to create a new instance of it (as on Line 6).
 
-Without the curly braces (as on line 2 of app.js), a new instance is created with the default json already having been passed in. This would make it impossible to pass in a different json file for the purpose of our test (line 20). Using this `{}` technique solved the problem of satisfying runtime and testing requirements nicely.
+Without the curly braces (as on line 2 of app.js), a new instance is created with the default json already having been passed in. This would make it impossible to pass in a different json file for the purpose of our test (line 20). Using this `{}` technique solved the problem of satisfying both runtime and testing requirements nicely.
 
 It was also very difficult to stub the feature-switches.js without injecting it as a dependency (`featureSwitches.js`, line 2) as opposed to having it sat inside the class as a dependency - a good example of how [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) makes your code easier to work with (amongst other benefits).
