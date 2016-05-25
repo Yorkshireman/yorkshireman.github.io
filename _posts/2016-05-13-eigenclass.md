@@ -193,6 +193,7 @@ Square.four_sides
 Square.sides
 => 4
 
+# Square's Eigenclass's properties have been changed, but the square_instance instance of Square has not:
 square_instance.sides
 => nil
 
@@ -216,6 +217,7 @@ square_instance.sides
 square_instance.four_sides
 => 4
 
+# because Square's Eigenclass hasn't been affected:
 Square.sides
 => nil
 
