@@ -141,7 +141,7 @@ square = Square.new
 => #<Square:0x007fec3c116b30>
 
 square.where_am_I?
-#=> NoMethodError: undefined method 'where_am_I?' for #<Circle:0x007fb231233aa8>
+#=> NoMethodError: undefined method 'where_am_I?' for #<Square:0x007fb231233aa8>
 
 #Define a Singleton method:
 def square.where_am_I?
@@ -178,10 +178,10 @@ class Square
   end
 end
 
-square = Square.new
+square_instance = Square.new
 => #<Square:0x007fec2fc116b30>
 
-square.sides
+square_instance.sides
 => nil
 
 Square.sides
@@ -193,17 +193,17 @@ Square.four_sides
 Square.sides
 => 4
 
-square.sides
+square_instance.sides
 => nil
 
-square.four_sides
+square_instance.four_sides
 => 4
 
-square.sides
+square_instance.sides
 => 4
 {% endhighlight %}
 
-`square` is an instance of `Square`, whereas `Square` is an instance of `Class`; the `Eigenclass` holds `Square`'s class methods its variable `@sides`. Well, that's the way I think about it anyway! (Need to dig into this and understand it a bit more).
+`square_instance` is an instance of `Square`, whereas `Square` is an instance of `Class`; the `Eigenclass` holds `Square`'s class methods its variable `@sides`. Well, that's the way I think about it anyway! (Need to dig into this and understand it a bit more).
 
 If we reload this code and do it the other way round, the same sort of thing occurs:
 {% highlight ruby %}
