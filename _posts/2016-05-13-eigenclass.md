@@ -207,13 +207,13 @@ square_instance.sides
 
 If we reload this code and do it the other way round, the same sort of thing occurs:
 {% highlight ruby %}
-square = Square.new
+square_instance = Square.new
 => #<Square:0x007fec3c14ab30>
 
-square.sides
+square_instance.sides
 => nil
 
-square.four_sides
+square_instance.four_sides
 => 4
 
 Square.sides
