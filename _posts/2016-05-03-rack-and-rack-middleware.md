@@ -8,25 +8,29 @@ categories: ruby, rack
 
 What is Rack?
 ------
-Rack provides a minimal interface between between webservers supporting Ruby and Ruby frameworks. Using Rack you can write a Rack Application.
+Rack provides a minimal interface between between webservers supporting Ruby and Ruby frameworks.
+
+Using Rack you can write a Rack Application.
 
 Rack will pass the Environment hash (a Hash, contained inside a HTTP request from a client, consisting of CGI-like headers) to your Rack Application which can use things contained in this hash to do whatever it wants.
 
 What is a Rack Application?
 ------
-A Rack Application is an object (not a class) that responds to `#call`.  
-`#call` takes exactly one argument, the Environment hash (typically defined `env`).  
-`#call` returns an Array of exactly three values: the 'status', the 'headers', and the 'body'.
+To use Rack, you must provide an 'app' - an object that responds to the `#call` method with the Environment Hash as a parameter (typically defined as `env`).
 
-You can write a Rack Application to return an array of these three values which will be sent back to your client, by Rack, inside a response (this will be an instance of [`Rack::Response`](http://www.rubydoc.info/github/rack/rack/Rack/Response)).
+`#call` must return an Array of exactly three values: the **Status Code** (eg '200'), a **Hash of Headers**, and the **Response Body** (which must respond to the Ruby method, `each`).
+
+You can write a Rack Application that returns such an array - this will be sent back to your client, by Rack, inside a _Response_ (this will actually be an _instance_ of the Class [`Rack::Response`](http://www.rubydoc.info/github/rack/rack/Rack/Response) [click to go to docs]).
 
 A Very Simple Rack Application:
 ------
 - `gem install rack`
 - Create a config.ru file - Rack knows to look for this.
 
-We will create a tiny Rack Application that returns an array that contains a body consisting of a String: "Hello, World!".
+We will create a tiny Rack Application that returns a Response (an instance of `Rack::Response`) who's Response Body is an array that contains a String: "Hello, World!".
+
 We will fire up a local server using the command `rackup`.
+
 When visiting the relevant port in our browser we will see "Hello, World!" rendered in the viewport.
 
 {% highlight ruby %}
@@ -46,6 +50,12 @@ run MessageApp.new
 {% endhighlight %}
 
 Fire up a local server with `rackup` and visit [localhost:9292](http://localhost:9292) and you should see 'Hello, World!' rendered.
+
+This is not a comprehensive explanation, but essentially what happens here is that the Client (the browser) sends a HTTP Request to Rack, via your local server, and Rack instantiates `MessageApp` and runs `call`, passing in the Environment Hash as a parameter into the method (the `env` argument).
+
+Rack takes the return value (the array) and uses it to create an instance of `Rack::Response` and sends that back to the Client. The browser uses [magic](http://www.oxforddictionaries.com/definition/english/magic) to print 'Hello, World!' to the screen.
+
+Incidentally, if you want to see what the environment hash looks like, just put `puts env` underneath `def call(env)`.
 
 Making a Rack Application interact with the Incoming Environment hash
 ---
@@ -80,6 +90,35 @@ We will:
 - finally, it will return `@app.call(env)` - `@app` being the next app in the 'Stack': `MessageApp`.
 
 First, the 'long-hand' version:
+
+{% highlight ruby %}
+#./middleware/message_setter.rb
+class MessageSetter
+  def initialize(app)
+    @app = app
+  end
+
+  def call(env)
+    if env['QUERY_STRING'].empty?
+      env['MESSAGE'] = 'Hello, World!'
+    else
+      env['MESSAGE'] = env['QUERY_STRING']
+    end
+    @app.call(env)
+  end
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+#./message_app.rb (same as before)
+class MessageApp
+  def call(env)
+    message = env['QUERY_STRING']
+    [200, {}, [message]]
+  end
+end
+{% endhighlight %}
+
 {% highlight ruby %}
 #config.ru
 require_relative './message_app'
@@ -93,29 +132,6 @@ end
 run app
 {% endhighlight %}
 
-{% highlight ruby %}
-#./middleware/message_setter.rb
-class MessageSetter
-  def initialize(app)
-    @app = app
-  end
-
-  def call(env)
-    if query_string_empty?(env)
-      env['MESSAGE'] = 'Hello, World!'
-    else
-      env['MESSAGE'] = env['QUERY_STRING']
-    end
-    @app.call(env)
-  end
-
-  private
-
-  def query_string_empty?(env)
-    env['QUERY_STRING'] == ""
-  end
-end
-{% endhighlight %}
 
 From the [Rack::Builder docs](http://www.rubydoc.info/github/rack/rack/Rack/Builder) we see that `Rack::Builder` implements a small DSL to iteratively construct Rack applications. This basically means that you can build a 'Stack' consisting of one or more Middlewares and a 'bottom level' application to dispatch to. All requests going through to your bottom-level application will be first processed by your Middleware(s).
 
@@ -123,14 +139,23 @@ From the [Rack::Builder docs](http://www.rubydoc.info/github/rack/rack/Rack/Buil
 
 Rack Middleware must:
 
-- have a constructor that takes the next application in the stack as a parameter,
+- have a constructor that takes the next application in the stack as a parameter.
 - respond to the `call` method that takes the Environment hash as a parameter.
 
-So here, because of what `Rack::Builder` does under the hood, `@app` is `MessageApp`. Therefore, each piece of Middleware essentially 'passes down' the existing Environment hash to the next application in the chain.
+**In our case, the 'Middleware' is `MessageSetter`, the 'constructor' is MessageSetter's `initialize` method, the 'next application' in the stack is `MessageApp`.**
 
-`#run` takes an argument that is an object that responds to `#call` and returns a Rack response (an instance of `Rack::Response`).
+So here, because of what `Rack::Builder` does under the hood, the `app` argument of `MessageSetter`'s `initialize` method is `MessageApp`. 
 
-Using `Rack::Builder` you can construct chains of Middleware and any request to your application will be processed by each Middleware in turn before finally being processed by the final piece in the stack (in our case, `MessageApp`). This is extremely useful because it separates-out different stages of processing requests. In terms of 'separation of concerns', it couldn't be much cleaner!
+(get your head around the above before moving on)
+
+Therefore, each piece of Middleware essentially 'passes down' the existing Environment hash to the next application in the chain - so you have the opportunity to mutate that environment hash within the Middleware before passing it on to the next application in the stack.
+
+`#run` takes an argument that is an object that responds to `#call` and returns a Rack Response (an instance of `Rack::Response`).
+
+Conclusions
+---
+
+Using `Rack::Builder` you can construct chains of Middlewares and any request to your application will be processed by each Middleware in turn before finally being processed by the final piece in the stack (in our case, `MessageApp`). This is extremely useful because it separates-out different stages of processing requests. In terms of 'separation of concerns', it couldn't be much cleaner!
 
 You can construct a 'request pipeline' consisting of several Middlewares that deal with things such as:
 
@@ -142,6 +167,8 @@ You can construct a 'request pipeline' consisting of several Middlewares that de
 - Execution (actually handle the request and provide a response)
 
 (above bullet points from [here](http://stackoverflow.com/questions/2256569/what-is-rack-middleware))
+
+You will often see this in professional Sinatra applications. Sinatra uses Rack! See [here](https://github.com/sinatra/sinatra/blob/master/README.md) for the definition of what Sinatra ***IS***!
 
 As a final note, our `config.ru` can be written in a short-hand style, producing exactly the same functionality (and this is what you'll typically see):
 {% highlight ruby %}
