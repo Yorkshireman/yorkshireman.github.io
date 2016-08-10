@@ -57,6 +57,8 @@ Rack takes the return value (the array) and uses it to create an instance of `Ra
 
 Incidentally, if you want to see what the environment hash looks like, just put `puts env` underneath `def call(env)`.
 
+Minimal as it is, what you have written here is a Rack application!
+
 Making a Rack Application interact with the Incoming Environment hash
 ---
 In our little Rack app, we can interact with the `env` hash (see [here](http://rack.rubyforge.org/doc/SPEC.html) for more about the Environment hash).
