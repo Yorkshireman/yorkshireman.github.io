@@ -4,7 +4,13 @@ title: 'Rack and Rack Middleware'
 author: Andrew Stelmach
 date: 2016-05-03
 categories: ruby, rack
+custom_js:
+- anchorjs.js
+- contents-table.js
 ---
+
+### In this post:
+{% include contents-table.html %}
 
 What is Rack?
 ------
@@ -16,9 +22,11 @@ Rack will pass the Environment hash (a Hash, contained inside a HTTP request fro
 
 What is a Rack Application?
 ------
-To use Rack, you must provide an 'app' - an object that responds to the `#call` method with the Environment Hash as a parameter (typically defined as `env`).
+To use Rack, you must provide an 'app' - an object that responds to the `#call` method with the Environment Hash as a parameter (typically defined as `env`). `#call` must return an Array of exactly three values:
 
-`#call` must return an Array of exactly three values: the **Status Code** (eg '200'), a **Hash of Headers**, and the **Response Body** (which must respond to the Ruby method, `each`).
+- the **Status Code** (eg '200'),
+- a **Hash of Headers**,
+- the **Response Body** (which must respond to the Ruby method, `each`).
 
 You can write a Rack Application that returns such an array - this will be sent back to your client, by Rack, inside a _Response_ (this will actually be an _instance_ of the Class [`Rack::Response`](http://www.rubydoc.info/github/rack/rack/Rack/Response) [click to go to docs]).
 
@@ -67,7 +75,7 @@ We will implement the ability for the user to input their own query string into 
 
 Our Rack app will access that query string from the Environment hash and send that back to the client (our browser, in this case) via the Body in the Response.
 
-From the Rack docs on the Environment Hash:  
+From the Rack docs on the Environment Hash:
 **"QUERY_STRING: The portion of the request URL that follows the ?, if any. May be empty, but is always required!"**
 
 {% highlight ruby %}
@@ -146,7 +154,7 @@ Rack Middleware must:
 
 **In our case, the 'Middleware' is `MessageSetter`, the 'constructor' is MessageSetter's `initialize` method, the 'next application' in the stack is `MessageApp`.**
 
-So here, because of what `Rack::Builder` does under the hood, the `app` argument of `MessageSetter`'s `initialize` method is `MessageApp`. 
+So here, because of what `Rack::Builder` does under the hood, the `app` argument of `MessageSetter`'s `initialize` method is `MessageApp`.
 
 (get your head around the above before moving on)
 
@@ -190,7 +198,8 @@ class MessageApp
 end
 {% endhighlight %}
 
-### Useful links:
+Useful links
+---
 
 - [Complete code for this post (Github repo commit)](https://github.com/Yorkshireman/rack_middleware_practice/tree/9310bce29006e7d846fcb6257bca66d183cce5f0)
 - [Good Blog Post, "Introduction to Rack Middleware"](https://www.amberbit.com/blog/2011/07/13/introduction-to-rack-middleware/)
