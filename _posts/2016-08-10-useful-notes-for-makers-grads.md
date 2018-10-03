@@ -85,7 +85,7 @@ Here are my top tips for tech tests:
 
 2. There is no Number 2 ;-)
 
-Ok, bad joke, but it's true - if you follow the process you were taught at Makers, you will deliver an excellent Tech Test to your potential employer; start by sketching out your Doman, code it using _proper_ TDD, and SOLID principles. And that's it.
+Ok, bad joke, but it's true - if you follow the process you were taught at Makers, you will deliver an excellent Tech Test to your potential employer; start by sketching out your Domain, code it using _proper_ TDD, and SOLID principles. And that's it.
 
 Tips for Phone Interview
 ---
